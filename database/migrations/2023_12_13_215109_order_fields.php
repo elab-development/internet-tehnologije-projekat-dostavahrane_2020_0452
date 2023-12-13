@@ -15,6 +15,7 @@ class OrderFields extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->enum('driver_status', ['assigned', 'picked_up', 'delivered'])->nullable();
+            $table->foreignId('store_id')->constrained()->restrictOnDelete();
         });
     }
 
@@ -27,6 +28,7 @@ class OrderFields extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->removeColumn('driver_status');
+            $table->dropConstrainedForeignId('store_id');
         });
     }
 }

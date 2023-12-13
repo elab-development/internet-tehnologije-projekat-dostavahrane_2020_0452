@@ -15,6 +15,7 @@ class UserTypes extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->enum('user_type', ['client', 'driver', 'merchant', 'admin'])->default('client');
+            $table->string('phone');
         });
     }
 
@@ -27,6 +28,7 @@ class UserTypes extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->removeColumn('user_type');
+            $table->removeColumn('phone');
         });
     }
 }
