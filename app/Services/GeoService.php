@@ -23,9 +23,10 @@ class GeoService
             'destinations' => $lat . ',' . $lng,
             'origins' => $store->lat . ',' . $store->lng
         ]);
+        $body = json_decode($response->body(), true);
         if (!$response->successful()) {
-            throw new Exception($response->body()['error_message']);
+            throw new Exception($body['error_message']);
         }
-        return $response->body()['rows'][0]['elements'][0];
+        return $body['rows'][0]['elements'][0];
     }
 }
