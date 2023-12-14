@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['status', 'lat', 'lng', 'address', 'rating', 'client_id', 'driver_id', 'driver_status', 'store_id'];
+    protected $fillable = ['status', 'lat', 'lng', 'address', 'rating', 'client_id', 'driver_id', 'driver_status', 'store_id', 'prep_time'];
 
     public function store()
     {
@@ -21,5 +21,10 @@ class Order extends Model
     public function driver()
     {
         return $this->belongsTo(User::class, 'driver_id', 'id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }
