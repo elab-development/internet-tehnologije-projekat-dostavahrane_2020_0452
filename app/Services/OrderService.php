@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Item;
+use App\Models\Merchant;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Exception;
@@ -11,6 +12,12 @@ use Illuminate\Support\Facades\DB;
 class OrderService
 {
 
+    private $geoService;
+
+    public function __construct(GeoService $geoService)
+    {
+        $this->geoService = $geoService;
+    }
 
     public function searchOrders($filters)
     {
@@ -81,5 +88,43 @@ class OrderService
     public function getById($id)
     {
         return Order::find($id);
+    }
+
+    public function rejectOrder($id, $user)
+    {
+        if ($user->user_type != 'admin' && $user->user_type != 'merchant') {
+            throw new Exception('Invalid access');
+        }
+        $order = Order::find($id);
+        if ($user->user_type == 'merchant') {
+            $merchant = Merchant::find($user->id);
+            if ($order->store_id != $merchant->store_id) {
+                throw new Exception('Invalid access');
+            }
+        }
+        $order->update(['status' => 'rejected']);
+        return $order;
+    }
+
+    public function acceptOrder($id, $data, $user)
+    {
+        if ($user->user_type != 'admin' && $user->user_type != 'merchant') {
+            throw new Exception('Invalid access');
+        }
+        $order = Order::find($id);
+        if ($user->user_type == 'merchant') {
+            $merchant = Merchant::find($user->id);
+            if ($order->store_id != $merchant->store_id) {
+                throw new Exception('Invalid access');
+            }
+        }
+        $prepTime = $data['prepTime'];
+        $deliveryTime = $this->geoService->calculate($order->lat, $order->lng, $order->store_id)['duration']['value'];
+        $order->update([
+            'status' => 'accepted',
+            'prep_time' => $prepTime,
+            'delivery_time' => $deliveryTime
+        ]);
+        return $order;
     }
 }

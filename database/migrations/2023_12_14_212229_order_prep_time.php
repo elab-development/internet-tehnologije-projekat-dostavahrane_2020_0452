@@ -14,7 +14,8 @@ class OrderPrepTime extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->integer('prep_time');
+            $table->integer('prep_time')->nullable();
+            $table->integer('delivery_time')->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ class OrderPrepTime extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->removeColumn('prep_time');
+            $table->removeColumn('delivery_time');
         });
     }
 }

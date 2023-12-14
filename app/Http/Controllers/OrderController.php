@@ -94,4 +94,17 @@ class OrderController extends Controller
         }
         return $order;
     }
+
+    public function acceptOrder($id, Request $request)
+    {
+        $user = $request->user();
+        $order = $this->orderService->acceptOrder($id, $request->all(), $user);
+        return response()->json($order);
+    }
+    public function rejectOrder($id, Request $request)
+    {
+        $user = $request->user();
+        $order = $this->orderService->rejectOrder($id, $user);
+        return response()->json($order);
+    }
 }

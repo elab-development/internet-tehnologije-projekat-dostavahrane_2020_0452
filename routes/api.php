@@ -23,6 +23,8 @@ Route::apiResource('/stores', StoreController::class)->only(['index', 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/travel-time', [GeoController::class, 'travelTime']);
+    Route::put('/orders/{id}/accept', [OrderController::class, 'rejectOrder']);
+    Route::put('/orders/{id}/reject', [OrderController::class, 'acceptOrder']);
     Route::apiResource('/orders', OrderController::class)->only(['index', 'store', 'show']);
     Route::apiResource('/stores', StoreController::class)->only(['update', 'store', 'destroy']);
 });
