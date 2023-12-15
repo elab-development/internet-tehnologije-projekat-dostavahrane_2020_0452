@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StoreResource;
 use App\Models\Store;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return response()->json(Store::all());
+        return response()->json(StoreResource::collection(Store::all()));
     }
 
     /**
@@ -30,7 +31,7 @@ class StoreController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         $store = Store::create($request->all());
-        return $store;
+        return response()->json(new StoreResource($store));
     }
 
     /**
@@ -41,7 +42,7 @@ class StoreController extends Controller
      */
     public function show(Store $store)
     {
-        return response()->json($store);
+        return response()->json(new StoreResource($store));
     }
 
     /**
@@ -58,7 +59,7 @@ class StoreController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         $store->update($request->all());
-        return response()->json($store);
+        return response()->json(new StoreResource($store));
     }
 
     /**

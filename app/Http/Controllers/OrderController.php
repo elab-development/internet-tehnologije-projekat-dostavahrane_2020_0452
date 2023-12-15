@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderCollection;
+use App\Http\Resources\OrderResource;
 use App\Models\Merchant;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -36,7 +38,7 @@ class OrderController extends Controller
             $query['store_id'] = $merchant->store_id;
         }
 
-        return response()->json($this->orderService->searchOrders($request->query));
+        return response()->json(new OrderCollection($this->orderService->searchOrders($request->query)));
     }
 
 
@@ -63,7 +65,7 @@ class OrderController extends Controller
             return response()->json($validator->errors(), 400);
         }
         try {
-            return response()->json($this->orderService->createOrder($body, $user->id));
+            return response()->json(new OrderResource($this->orderService->createOrder($body, $user->id)));
         } catch (\Exception $ex) {
             return response()->json($ex->getMessage(), 400);
         }
@@ -91,19 +93,19 @@ class OrderController extends Controller
                 return response()->json(['message' => 'Unauthorized'], 403);
             }
         }
-        return $order;
+        return response()->json(new OrderResource($order));
     }
 
     public function acceptOrder($id, Request $request)
     {
         $user = $request->user();
         $order = $this->orderService->acceptOrder($id, $request->all(), $user);
-        return response()->json($order);
+        return response()->json(new OrderResource($order));
     }
     public function rejectOrder($id, Request $request)
     {
         $user = $request->user();
         $order = $this->orderService->rejectOrder($id, $user);
-        return response()->json($order);
+        return response()->json(new OrderResource($order));
     }
 }

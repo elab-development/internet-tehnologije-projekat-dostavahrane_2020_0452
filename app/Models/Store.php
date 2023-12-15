@@ -9,4 +9,9 @@ class Store extends Model
 {
     use HasFactory;
     protected $fillable = ['lat', 'lng', 'name', 'address'];
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

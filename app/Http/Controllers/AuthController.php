@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:255|unique:users',
             'password' => 'required|string|max:255',
         ]);
         if ($validator->fails()) {
@@ -24,13 +26,14 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'user_type' => 'client'
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['user' => $user, 'token' => $token]);
+        return response()->json(['user' => new UserResource($user), 'token' => $token]);
     }
 
     public function login(Request $request)
@@ -41,7 +44,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['user' => $user, 'token' => $token]);
+        return response()->json(['user' => new UserResource($user), 'token' => $token]);
     }
 
     public function logout(Request $request)
