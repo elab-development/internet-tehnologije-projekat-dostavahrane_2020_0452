@@ -24,25 +24,25 @@ class OrderService
         $page = 0;
         $size = 20;
         $where = [];
-        if ($filters['store_id']) {
+        if (array_key_exists('store_id', $filters)) {
             $where[] = ['store_id', '=', $filters['store_id']];
         }
-        if ($filters['client_id']) {
+        if (array_key_exists('client_id', $filters)) {
             $where[] = ['client_id', '=', $filters['client_id']];
         }
-        if ($filters['driver_id']) {
+        if (array_key_exists('driver_id', $filters)) {
             $where[] = ['driver_id', '=', $filters['driver_id']];
         }
-        if ($filters['from']) {
+        if (array_key_exists('from', $filters)) {
             $where[] = ['created_at', '>', $filters['from']];
         }
-        if ($filters['to']) {
+        if (array_key_exists('to', $filters)) {
             $where[] = ['created_at', '<', $filters['to']];
         }
-        if ($filters['page']) {
+        if (array_key_exists('page', $filters)) {
             $page = $filters['page'];
         }
-        if ($filters['size']) {
+        if (array_key_exists('size', $filters)) {
             $size = $filters['size'];
         }
         return Order::where($where)->paginate($size, ['*'], 'page', $page);

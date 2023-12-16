@@ -27,10 +27,7 @@ class OrderResource extends JsonResource
             "items" => OrderItemResource::collection($this->items),
             'driverStatus' => $this->driver_status,
             'driverStatus' => $this->driver_status,
-            'store' => [
-                "id" => $this->store_id,
-                "name" => $this->store->name
-            ],
+            'store' => new StoreResource($this->store),
             'prepTime' => $this->prep_time,
             'deliveryTime' => $this->delivery_time,
             'deliveryPrice' => $this->delivery_price

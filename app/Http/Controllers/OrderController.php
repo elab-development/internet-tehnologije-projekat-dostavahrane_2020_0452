@@ -6,6 +6,7 @@ use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Models\Merchant;
 use App\Services\OrderService;
+use ArrayObject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,7 +26,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $query = $request->query;
+        $query = new ArrayObject($request->query);
         $user = $request->user();
         if ($user->user_type == 'client') {
             $query['client_id'] = $user->id;
@@ -37,7 +38,7 @@ class OrderController extends Controller
             $merchant = Merchant::find($user->id);
             $query['store_id'] = $merchant->store_id;
         }
-        return response()->json(new OrderCollection($this->orderService->searchOrders($request->query)));
+        return response()->json(new OrderCollection($this->orderService->searchOrders($query)));
     }
 
 
