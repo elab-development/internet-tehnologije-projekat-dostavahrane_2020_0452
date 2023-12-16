@@ -20,7 +20,7 @@ class ItemResource extends JsonResource
             'name' => $this->name,
             'image' => $this->image,
             'price' => $this->price,
-            'disabled' => $this->disabled,
+            'disabled' => $this->disabled ? true : false,
             'storeId' => $this->store_id
         ];
     }

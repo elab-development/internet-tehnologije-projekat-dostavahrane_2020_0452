@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->text('address');
             $table->decimal('lat');
             $table->decimal('lng');
-            $table->integer('rating');
+            $table->integer('rating')->nullable();
             $table->foreignId('client_id')->constrained('users')->restrictOnDelete();
             $table->foreignId('driver_id')->nullable()->constrained('users')->nullOnDelete();
         });

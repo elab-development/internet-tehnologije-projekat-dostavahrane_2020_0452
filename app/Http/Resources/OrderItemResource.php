@@ -19,7 +19,7 @@ class OrderItemResource extends JsonResource
             'createdAt' => $this->created_at,
             'item' => new ItemResource($this->item),
             'count' => $this->count,
-            'price' => $this->price
+            'price' => $this->item_price
         ];
     }
 }

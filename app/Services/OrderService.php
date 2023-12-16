@@ -52,18 +52,23 @@ class OrderService
     {
         try {
             DB::beginTransaction();
-            $item = Item::find($$orderData['items'][0]->itemId);
+            $item = Item::find($orderData['items'][0]['itemId']);
             $storeId = $item->store_id;
+            $geoResult = $this->geoService->calculate($orderData['lat'], $orderData['lng'],  $storeId);
+            $deliveryTime = $geoResult['duration']['value'];
+            $distance = $geoResult['distance']['value'];
             $order =  Order::create([
                 'client_id' => $clientId,
-                'lat' => $orderData->lat,
-                'lng' => $orderData->lng,
-                'address' => $orderData->address,
+                'lat' => $orderData['lat'],
+                'lng' => $orderData['lng'],
+                'address' => $orderData['address'],
                 'status' => 'pending',
                 'store_id' => $storeId,
+                'delivery_time' => $deliveryTime,
+                'delivery_price' => $distance * 0.06
             ]);
             foreach ($orderData['items'] as $itemRequest) {
-                $item = Item::find($itemRequest->itemId);
+                $item = Item::find($itemRequest['itemId']);
                 if (!$item) {
                     throw new Exception('Missing item');
                 }
@@ -73,8 +78,8 @@ class OrderService
                 OrderItem::create([
                     'order_id' => $order->id,
                     'item_id' => $item->id,
-                    'count' => $itemRequest->count,
-                    'price' => $item->price
+                    'count' => $itemRequest['count'],
+                    'item_price' => $item->price
                 ]);
             }
             DB::commit();
@@ -119,11 +124,9 @@ class OrderService
             }
         }
         $prepTime = $data['prepTime'];
-        $deliveryTime = $this->geoService->calculate($order->lat, $order->lng, $order->store_id)['duration']['value'];
         $order->update([
             'status' => 'accepted',
-            'prep_time' => $prepTime,
-            'delivery_time' => $deliveryTime
+            'prep_time' => $prepTime
         ]);
         return $order;
     }

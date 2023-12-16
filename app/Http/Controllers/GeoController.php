@@ -22,4 +22,9 @@ class GeoController extends Controller
         $lng = $request->query('lng');
         return response()->json($this->geoService->calculate($lat, $lng, $storeId));
     }
+
+    public function geocode(Request $request)
+    {
+        return response()->json($this->geoService->geocode($request->query('address')));
+    }
 }

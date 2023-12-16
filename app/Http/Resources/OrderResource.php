@@ -32,7 +32,8 @@ class OrderResource extends JsonResource
                 "name" => $this->store->name
             ],
             'prepTime' => $this->prep_time,
-            'deliveryTime' => $this->delivery_time
+            'deliveryTime' => $this->delivery_time,
+            'deliveryPrice' => $this->delivery_price
         ];
     }
 }

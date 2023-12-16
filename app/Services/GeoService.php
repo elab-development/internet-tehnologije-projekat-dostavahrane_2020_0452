@@ -29,4 +29,27 @@ class GeoService
         }
         return $body['rows'][0]['elements'][0];
     }
+
+    public function geocode($address)
+    {
+        $apiKey = env('TRAVEL_API_KEY', '');
+        $url = env('GEOCODE_API_URL', '');
+        $response = Http::get($url, [
+            'key' => $apiKey,
+            'address' => $address
+        ]);
+        $body = json_decode($response->body(), true);
+        if (!$response->successful()) {
+            throw new Exception($body['error_message']);
+        }
+        $result = [];
+        foreach ($body['result'] as $element) {
+            $result[] = [
+                "address" => $element['formatted_address'],
+                "lat" => $element['geometry']["location"]["lat"],
+                "lng" => $element['geometry']["location"]["lng"]
+            ];
+        }
+        return $result;
+    }
 }

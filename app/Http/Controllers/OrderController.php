@@ -37,7 +37,6 @@ class OrderController extends Controller
             $merchant = Merchant::find($user->id);
             $query['store_id'] = $merchant->store_id;
         }
-
         return response()->json(new OrderCollection($this->orderService->searchOrders($request->query)));
     }
 
@@ -56,10 +55,10 @@ class OrderController extends Controller
         }
         $body = $request->all();
         $validator = Validator::make($body, [
-            'address' => 'required|string|min:10',
+            'address' => 'required|string|min:5',
             'lat' => 'required|numeric',
             'lng' => 'required|numeric',
-            'items' => 'required|array:itemId,count|min:1'
+            'items' => 'required|array|min:1'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
