@@ -31,9 +31,6 @@ class OrderController extends Controller
         if ($user->user_type == 'client') {
             $query['client_id'] = $user->id;
         }
-        if ($user->user_type == 'driver') {
-            $query['driver_id'] = $user->id;
-        }
         if ($user->user_type == 'merchant') {
             $merchant = Merchant::find($user->id);
             $query['store_id'] = $merchant->store_id;

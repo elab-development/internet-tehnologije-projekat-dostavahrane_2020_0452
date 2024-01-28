@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GeoController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/orders/{id}/reject', [OrderController::class, 'acceptOrder']);
     Route::apiResource('/orders', OrderController::class)->only(['index', 'store', 'show']);
     Route::apiResource('/stores', StoreController::class)->only(['update', 'store', 'destroy']);
+    Route::apiResource('items', ItemController::class)->only(['store', 'update', 'destroy']);
 });
