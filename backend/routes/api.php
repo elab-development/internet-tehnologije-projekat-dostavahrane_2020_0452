@@ -28,6 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/travel-time', [GeoController::class, 'travelTime']);
     Route::put('/orders/{id}/accept', [OrderController::class, 'rejectOrder']);
     Route::put('/orders/{id}/reject', [OrderController::class, 'acceptOrder']);
+    Route::put('/orders/{id}/prepare', [OrderController::class, 'prepareOrder']);
+    Route::put('/orders/{id}/assign', [OrderController::class, 'assignOrder']);
+    Route::put('/orders/{id}/pick-up', [OrderController::class, 'pickupOrder']);
+    Route::put('/orders/{id}/deliver', [OrderController::class, 'deliverOrder']);
     Route::apiResource('/orders', OrderController::class)->only(['index', 'store', 'show']);
     Route::apiResource('/stores', StoreController::class)->only(['update', 'store', 'destroy']);
     Route::apiResource('items', ItemController::class)->only(['store', 'update', 'destroy']);

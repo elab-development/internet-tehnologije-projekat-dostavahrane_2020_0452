@@ -130,4 +130,57 @@ class OrderService
         ]);
         return $order;
     }
+    public function prepareOrder($id, $user)
+    {
+        if ($user->user_type != 'admin' && $user->user_type != 'merchant') {
+            throw new Exception('Invalid access');
+        }
+        $order = Order::find($id);
+        if ($user->user_type == 'merchant') {
+            $merchant = Merchant::find($user->id);
+            if ($order->store_id != $merchant->store_id) {
+                throw new Exception('Invalid access');
+            }
+        }
+        $order->update(['status' => 'prepared']);
+        return $order;
+    }
+    public function assignOrder($id, $user, $driverId)
+    {
+        if ($user->user_type != 'admin') {
+            throw new Exception('Invalid access');
+        }
+        $order = Order::find($id);
+
+        $order->update(['status' => 'assigned', 'driver_id' => $driverId]);
+        return $order;
+    }
+    public function pickupOrder($id, $user)
+    {
+        if ($user->user_type != 'admin' && $user->user_type != 'driver') {
+            throw new Exception('Invalid access');
+        }
+        $order = Order::find($id);
+        if ($user->user_type == 'driver') {
+            if ($order->driver_id != $user->id) {
+                throw new Exception('Invalid access');
+            }
+        }
+        $order->update(['status' => 'picked_up']);
+        return $order;
+    }
+    public function deliverOrder($id, $user)
+    {
+        if ($user->user_type != 'admin' && $user->user_type != 'driver') {
+            throw new Exception('Invalid access');
+        }
+        $order = Order::find($id);
+        if ($user->user_type == 'driver') {
+            if ($order->driver_id != $user->id) {
+                throw new Exception('Invalid access');
+            }
+        }
+        $order->update(['status' => 'delivered']);
+        return $order;
+    }
 }

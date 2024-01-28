@@ -99,10 +99,36 @@ class OrderController extends Controller
         $order = $this->orderService->acceptOrder($id, $request->all(), $user);
         return response()->json(new OrderResource($order));
     }
+
     public function rejectOrder($id, Request $request)
     {
         $user = $request->user();
         $order = $this->orderService->rejectOrder($id, $user);
+        return response()->json(new OrderResource($order));
+    }
+
+    public function prepareOrder($id, Request $request)
+    {
+        $user = $request->user();
+        $order = $this->orderService->prepareOrder($id, $user);
+        return response()->json(new OrderResource($order));
+    }
+    public function assignOrder($id, Request $request)
+    {
+        $user = $request->user();
+        $order = $this->orderService->assignOrder($id, $user, $request->driverId);
+        return response()->json(new OrderResource($order));
+    }
+    public function pickupOrder($id, Request $request)
+    {
+        $user = $request->user();
+        $order = $this->orderService->pickupOrder($id, $user);
+        return response()->json(new OrderResource($order));
+    }
+    public function deliverOrder($id, Request $request)
+    {
+        $user = $request->user();
+        $order = $this->orderService->deliverOrder($id, $user);
         return response()->json(new OrderResource($order));
     }
 }
