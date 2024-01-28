@@ -1,0 +1,24 @@
+.navbar {
+    flex-basis: 5%;
+    display: flex;
+    padding: 10px 15px;
+    background-color: rgb(252, 79, 56);
+    color: white;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(175, 175, 175);
+    align-items: center;
+    justify-content: space-between;
+
+    .content {
+        padding-left: 40px;
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+
+        .buttons {
+            display: flex;
+
+        }
+    }
+}

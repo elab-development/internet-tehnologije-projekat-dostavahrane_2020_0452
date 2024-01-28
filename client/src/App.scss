@@ -1,0 +1,18 @@
+@use './components/logo/Logo.scss';
+@use './components/userInfo/UserInfo.scss';
+@use './client/ClientStyles.scss';
+@use './components/navButton/NavButton.scss';
+@use './components/container/Container.scss';
+
+.link {
+    text-decoration: none;
+    color: rgb(252, 79, 56);
+
+    &:focus,
+    &:hover,
+    &:visited,
+    &:link,
+    &:active {
+        text-decoration: none;
+    }
+}
