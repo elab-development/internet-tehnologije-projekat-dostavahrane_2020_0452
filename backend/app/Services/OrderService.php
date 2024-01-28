@@ -183,4 +183,18 @@ class OrderService
         $order->update(['status' => 'delivered']);
         return $order;
     }
+
+    public function getStoreStatistics($from, $to)
+    {
+        $query = DB::table('orders')
+            ->select('store_id', DB::raw('COUNT(*) as total'));
+        if ($from) {
+            $query = $query->when('created_at', '>', $from);
+        }
+        if ($to) {
+            $query = $query->when('created_at', '<', $to);
+        }
+        $query = $query->groupBy('store_id');
+        return $query->get();
+    }
 }

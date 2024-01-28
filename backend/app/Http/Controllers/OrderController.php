@@ -131,4 +131,13 @@ class OrderController extends Controller
         $order = $this->orderService->deliverOrder($id, $user);
         return response()->json(new OrderResource($order));
     }
+
+    public function getOrderStatistics(Request $request)
+    {
+        $user = $request->user();
+        if ($user->type != 'admin') {
+            return response()->json(["message" => 'Forbidden'], 403);
+        }
+        return response()->json($this->orderService->getStoreStatistics($request->query('from', null), $request->query('to', null)));
+    }
 }

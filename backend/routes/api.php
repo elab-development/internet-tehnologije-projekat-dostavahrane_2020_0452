@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/orders/{id}/assign', [OrderController::class, 'assignOrder']);
     Route::put('/orders/{id}/pick-up', [OrderController::class, 'pickupOrder']);
     Route::put('/orders/{id}/deliver', [OrderController::class, 'deliverOrder']);
+    Route::get('/orders/statistics', [OrderController::class, 'getOrderStatistics']);
     Route::apiResource('/orders', OrderController::class)->only(['index', 'store', 'show']);
     Route::apiResource('/stores', StoreController::class)->only(['update', 'store', 'destroy']);
     Route::apiResource('items', ItemController::class)->only(['store', 'update', 'destroy']);
