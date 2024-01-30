@@ -10,6 +10,9 @@ interface Props {
 
 export default function Pagination(props: Props) {
     const pages = Math.ceil(props.totalElements / props.size);
+    if (pages === 1) {
+        return null;
+    }
     return (
         <nav aria-label="Page navigation example">
             <ul className="pagination">

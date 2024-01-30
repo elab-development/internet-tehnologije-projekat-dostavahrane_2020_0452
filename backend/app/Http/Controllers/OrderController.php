@@ -26,7 +26,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $query = new ArrayObject($request->query);
+        $query = $_GET;
         $user = $request->user();
         if ($user->user_type == 'client') {
             $query['client_id'] = $user->id;
