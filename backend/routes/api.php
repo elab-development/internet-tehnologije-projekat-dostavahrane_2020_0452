@@ -25,6 +25,7 @@ Route::apiResource('/stores', StoreController::class)->only(['index', 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
+    Route::get('/merchant-store', [StoreController::class, 'merchantStore']);
     Route::get('/travel-time', [GeoController::class, 'travelTime']);
     Route::put('/orders/{id}/accept', [OrderController::class, 'rejectOrder']);
     Route::put('/orders/{id}/reject', [OrderController::class, 'acceptOrder']);

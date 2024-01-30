@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\StoreResource;
+use App\Models\Merchant;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class StoreController extends Controller
 {
@@ -30,7 +34,25 @@ class StoreController extends Controller
         if ($user->user_type != 'admin') {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-        $store = Store::create($request->all());
+        DB::beginTransaction();
+        $body = $request->all();
+        $store = Store::create($body['store']);
+        $userData = $body['user'];
+        if (User::where('email', $userData['email'])->first()) {
+            DB::rollBack();
+            return response(['message' => 'Email already in use'], 400);
+        }
+        $user = User::create([
+            'name' => $userData['name'],
+            'email' => $userData['email'],
+            'phone' => $userData['phone'],
+            'password' => Hash::make($userData['password']),
+            'user_type' => 'merchant'
+        ]);
+        Merchant::create([
+            "id" => $user->id,
+            'store_id' => $store->id
+        ]);
         return response()->json(new StoreResource($store));
     }
 
@@ -76,5 +98,15 @@ class StoreController extends Controller
         }
         $store->delete();
         return response()->noContent();
+    }
+
+    public function merchantStore(Request $request)
+    {
+        $user = $request->user();
+        if ($user->user_type != 'merchant') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $store = Merchant::find($user->id)->store;
+        return response()->json(new StoreResource($store));
     }
 }

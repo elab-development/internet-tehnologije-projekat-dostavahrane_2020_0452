@@ -1,6 +1,7 @@
 @use './components/logo/Logo.scss';
 @use './components/userInfo/UserInfo.scss';
 @use './client/ClientStyles.scss';
+@use './merchant/MerchantStyles.scss';
 @use './components/navButton/NavButton.scss';
 @use './components/container/Container.scss';
 
@@ -15,4 +16,11 @@
     &:active {
         text-decoration: none;
     }
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
 }

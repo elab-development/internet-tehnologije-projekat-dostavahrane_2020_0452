@@ -3,10 +3,3 @@
 @use './components/store/StorePage.scss';
 @use './components/cart/CartPage.scss';
 @use './components/orders/OrdersPage.scss';
-
-.main {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow-y: auto;
-}
