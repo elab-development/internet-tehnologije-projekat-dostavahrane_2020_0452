@@ -22,11 +22,11 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $user = $request->user();
-        if ($user->type != 'admin' && $user->type != 'merchant') {
+        if ($user->user_type != 'admin' && $user->user_type != 'merchant') {
             return response()->json(["message" => "Forbidden"], 403);
         }
         $storeId = $request->input("store_id", null);
-        if ($user->type === 'merchant') {
+        if ($user->user_type === 'merchant') {
             $merchant = Merchant::find($user->id);
             $storeId = $merchant->store_id;
         }
@@ -75,13 +75,17 @@ class ItemController extends Controller
 
     private function validateUser(User $user, Item $item)
     {
-        if ($user->type == 'admin') {
+        error_log($user->user_type);
+        error_log($item->id);
+        error_log($item->store_id);
+        if ($user->user_type == 'admin') {
             return true;
         }
-        if ($user->type != 'merchant') {
+        if ($user->user_type != 'merchant') {
             return false;
         }
         $merchant = Merchant::find($user->id);
+        error_log($merchant->store_id);
         return $merchant->store_id == $item->store_id;
     }
 }

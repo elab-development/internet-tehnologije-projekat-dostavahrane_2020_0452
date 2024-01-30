@@ -17,13 +17,13 @@ export default function Navbar() {
                 <div className='buttons'>
 
                     <NavButton>
-                        <NavLink className='link' to='/login'>Active orders</NavLink>
+                        <NavLink className='link' to='/'>Active orders</NavLink>
                     </NavButton>
                     <NavButton>
-                        <NavLink className='link' to='/register'>Order history</NavLink>
+                        <NavLink className='link' to='/orders'>Order history</NavLink>
                     </NavButton>
                     <NavButton>
-                        <NavLink className='link' to='/register'>Items</NavLink>
+                        <NavLink className='link' to='/items'>Items</NavLink>
                     </NavButton>
                 </div>
             </div>

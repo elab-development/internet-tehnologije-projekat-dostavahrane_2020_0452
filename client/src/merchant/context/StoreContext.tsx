@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Store } from '../../types';
+import { Item, Store } from '../../types';
 import axios from 'axios';
 
 interface StoreContextType {
     store: Store,
+    updateItem: (id: number, item: Item) => void
 }
 
 const StoreContext = React.createContext<StoreContextType | null>(null);
@@ -13,7 +14,7 @@ export function useStoreContext() {
     if (!c) {
         throw new Error('Missing context');
     }
-    return c.store;
+    return c;
 }
 
 export function StoreContextProvider(props: React.PropsWithChildren) {
@@ -45,7 +46,23 @@ export function StoreContextProvider(props: React.PropsWithChildren) {
     return (
         <StoreContext.Provider
             value={{
-                store
+                store,
+                updateItem: (id, item) => {
+                    setStore(prev => {
+                        if (!prev) {
+                            return prev;
+                        }
+                        return {
+                            ...prev,
+                            items: prev?.items.map(i => {
+                                if (i.id === id) {
+                                    return item;
+                                }
+                                return i;
+                            })
+                        }
+                    })
+                }
             }}
         >
             {props.children}

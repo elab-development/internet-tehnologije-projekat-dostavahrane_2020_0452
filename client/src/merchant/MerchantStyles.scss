@@ -1,1 +1,8 @@
 @use './components/navbar/Navbar.scss';
+@use './components/itemCard/ItemCard.scss';
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

@@ -135,7 +135,7 @@ class OrderController extends Controller
     public function getOrderStatistics(Request $request)
     {
         $user = $request->user();
-        if ($user->type != 'admin') {
+        if ($user->user_type != 'admin') {
             return response()->json(["message" => 'Forbidden'], 403);
         }
         return response()->json($this->orderService->getStoreStatistics($request->query('from', null), $request->query('to', null)));
