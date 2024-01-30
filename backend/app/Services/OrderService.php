@@ -186,15 +186,17 @@ class OrderService
 
     public function getStoreStatistics($from, $to)
     {
-        $query = DB::table('orders')
-            ->select('store_id', DB::raw('COUNT(*) as total'));
+
+        $query = DB::table('stores')
+            ->select('stores.id', 'stores.name', DB::raw('COUNT(orders.id) as total'))
+            ->leftJoin('orders', 'orders.store_id', '=', 'stores.id');
         if ($from) {
-            $query = $query->when('created_at', '>', $from);
+            $query = $query->where('created_at', '>', $from);
         }
         if ($to) {
-            $query = $query->when('created_at', '<', $to);
+            $query = $query->where('created_at', '<', $to);
         }
-        $query = $query->groupBy('store_id');
+        $query = $query->groupBy('stores.id')->groupBy('stores.name');
         return $query->get();
     }
 }
