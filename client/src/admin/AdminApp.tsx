@@ -13,10 +13,10 @@ export default function AdminApp() {
             <Navbar />
             <Routes>
                 <Route path='*' element={<OrdersPage />} />
-                <Route path='stores' element={<StoresPage />} />
-                <Route path='create-store' element={<CreateStorePage />} />
-                <Route path='items' element={<ItemsPage />} />
-                <Route path='statistics' element={<StatisticsPage />} />
+                <Route path='/stores' element={<StoresPage />} />
+                <Route path='/create-store' element={<CreateStorePage />} />
+                <Route path='/stores/:id' element={<ItemsPage />} />
+                <Route path='/statistics' element={<StatisticsPage />} />
             </Routes>
         </div>
     )

@@ -25,7 +25,7 @@ class ItemController extends Controller
         if ($user->user_type != 'admin' && $user->user_type != 'merchant') {
             return response()->json(["message" => "Forbidden"], 403);
         }
-        $storeId = $request->input("store_id", null);
+        $storeId = $request->input("storeId", null);
         if ($user->user_type === 'merchant') {
             $merchant = Merchant::find($user->id);
             $storeId = $merchant->store_id;

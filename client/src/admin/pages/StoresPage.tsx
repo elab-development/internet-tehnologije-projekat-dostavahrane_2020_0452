@@ -3,6 +3,7 @@ import Container from '../../components/container/Container'
 import { Store } from '../../types'
 import axios from 'axios'
 import StoreForm from '../components/StoreForm'
+import { Link } from 'react-router-dom'
 
 export default function StoresPage() {
     const [stores, setStores] = useState<Store[]>([])
@@ -26,6 +27,7 @@ export default function StoresPage() {
                                 <th>Address</th>
                                 <th>Lat</th>
                                 <th>Lng</th>
+                                <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,7 +44,9 @@ export default function StoresPage() {
                                             <td>{store.address}</td>
                                             <td>{store.lat}</td>
                                             <td>{store.lng}</td>
-
+                                            <td>
+                                                <Link to={'/stores/' + store.id}>Details</Link>
+                                            </td>
                                         </tr>
                                     )
                                 })
