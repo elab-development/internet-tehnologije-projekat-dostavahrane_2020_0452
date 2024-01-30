@@ -31,14 +31,14 @@ class OrderController extends Controller
         $query = $_GET;
         $user = $request->user();
         if ($user->user_type == 'client') {
-            $query['client_id'] = $user->id;
+            $query['clientId'] = $user->id;
         }
         if ($user->user_type == 'merchant') {
             $merchant = Merchant::find($user->id);
-            $query['store_id'] = $merchant->store_id;
+            $query['storeId'] = $merchant->store_id;
         }
         if ($user->user_type == 'driver') {
-            $query['driver_id'] = $user->id;
+            $query['driverId'] = $user->id;
         }
         return response()->json(new OrderCollection($this->orderService->searchOrders($query)));
     }

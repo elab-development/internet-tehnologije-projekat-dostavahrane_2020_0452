@@ -24,14 +24,14 @@ class OrderService
         $page = 0;
         $size = 20;
         $where = [];
-        if (array_key_exists('store_id', $filters)) {
-            $where[] = ['store_id', '=', $filters['store_id']];
+        if (array_key_exists('storeId', $filters)) {
+            $where[] = ['store_id', '=', $filters['storeId']];
         }
-        if (array_key_exists('client_id', $filters)) {
-            $where[] = ['client_id', '=', $filters['client_id']];
+        if (array_key_exists('clientId', $filters)) {
+            $where[] = ['client_id', '=', $filters['clientId']];
         }
-        if (array_key_exists('driver_id', $filters)) {
-            $where[] = ['driver_id', '=', $filters['driver_id']];
+        if (array_key_exists('driverId', $filters)) {
+            $where[] = ['driver_id', '=', $filters['driverId']];
         }
         if (array_key_exists('from', $filters)) {
             $where[] = ['created_at', '>', $filters['from']];

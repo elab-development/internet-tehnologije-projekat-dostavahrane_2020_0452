@@ -5,6 +5,7 @@ use App\Http\Controllers\GeoController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,8 @@ Route::apiResource('/stores', StoreController::class)->only(['index', 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
+    Route::get('/clients', [UserController::class, 'clients']);
+    Route::get('/drivers', [UserController::class, 'drivers']);
     Route::get('/merchant-store', [StoreController::class, 'merchantStore']);
     Route::get('/travel-time', [GeoController::class, 'travelTime']);
     Route::get('/active-orders', [OrderController::class, 'activeOrders']);
