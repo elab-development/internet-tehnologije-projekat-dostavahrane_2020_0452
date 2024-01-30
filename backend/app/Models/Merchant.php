@@ -10,6 +10,8 @@ class Merchant extends Model
     use HasFactory;
     protected $fillable = ['id', 'store_id'];
 
+    public $timestamps = false;
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id', 'id');

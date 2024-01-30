@@ -53,6 +53,7 @@ class StoreController extends Controller
             "id" => $user->id,
             'store_id' => $store->id
         ]);
+        DB::commit();
         return response()->json(new StoreResource($store));
     }
 

@@ -17,8 +17,17 @@ export default function Navbar() {
 
                     <NavButton>
                         <NavLink className='link' to='/'>Orders</NavLink>
+                    </NavButton>
+                    <NavButton>
                         <NavLink className='link' to='/stores'>Stores</NavLink>
+                    </NavButton>
+                    <NavButton>
+                        <NavLink className='link' to='/create-store'>Create store</NavLink>
+                    </NavButton>
+                    <NavButton>
                         <NavLink className='link' to='/items'>Items</NavLink>
+                    </NavButton>
+                    <NavButton>
                         <NavLink className='link' to='/statistics'>Statistics</NavLink>
                     </NavButton>
                 </div>

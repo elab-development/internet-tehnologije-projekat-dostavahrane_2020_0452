@@ -5,6 +5,7 @@ import OrdersPage from './pages/OrdersPage'
 import StoresPage from './pages/StoresPage'
 import ItemsPage from './pages/ItemsPage'
 import StatisticsPage from './pages/StatisticsPage'
+import CreateStorePage from './pages/CreateStorePage'
 
 export default function AdminApp() {
     return (
@@ -13,6 +14,7 @@ export default function AdminApp() {
             <Routes>
                 <Route path='*' element={<OrdersPage />} />
                 <Route path='stores' element={<StoresPage />} />
+                <Route path='create-store' element={<CreateStorePage />} />
                 <Route path='items' element={<ItemsPage />} />
                 <Route path='statistics' element={<StatisticsPage />} />
             </Routes>
