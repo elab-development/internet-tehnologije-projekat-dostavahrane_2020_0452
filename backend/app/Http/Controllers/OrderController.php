@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Models\Merchant;
+use App\Models\Order;
 use App\Services\OrderService;
 use ArrayObject;
 use Illuminate\Http\Request;
@@ -91,6 +92,18 @@ class OrderController extends Controller
             }
         }
         return response()->json(new OrderResource($order));
+    }
+
+    public function activeOrders(Request $request)
+    {
+        $user = $request->user();
+        if ($user->user_type != 'merchant') {
+            return response(['message' => 'Forbidden'], 403);
+        }
+        $storeId = Merchant::find($user->id)->store_id;
+        $orders = Order::where('store_id', $storeId)
+            ->whereIn('status', ['pending', 'accepted'])->get();
+        return response()->json(OrderResource::collection($orders));
     }
 
     public function acceptOrder($id, Request $request)

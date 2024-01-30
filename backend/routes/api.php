@@ -27,8 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/merchant-store', [StoreController::class, 'merchantStore']);
     Route::get('/travel-time', [GeoController::class, 'travelTime']);
-    Route::put('/orders/{id}/accept', [OrderController::class, 'rejectOrder']);
-    Route::put('/orders/{id}/reject', [OrderController::class, 'acceptOrder']);
+    Route::get('/active-orders', [OrderController::class, 'activeOrders']);
+    Route::put('/orders/{id}/accept', [OrderController::class, 'acceptOrder']);
+    Route::put('/orders/{id}/reject', [OrderController::class, 'rejectOrder']);
     Route::put('/orders/{id}/prepare', [OrderController::class, 'prepareOrder']);
     Route::put('/orders/{id}/assign', [OrderController::class, 'assignOrder']);
     Route::put('/orders/{id}/pick-up', [OrderController::class, 'pickupOrder']);
