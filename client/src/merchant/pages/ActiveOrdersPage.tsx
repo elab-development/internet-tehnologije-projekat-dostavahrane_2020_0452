@@ -15,16 +15,18 @@ export default function ActiveOrdersPage() {
             .then(res => {
                 setOrders(res.data);
             })
+    }, [])
+    useEffect(() => {
         const ref = setInterval(() => {
             axios.get('/api/active-orders')
                 .then(res => {
                     setOrders(res.data);
                 })
-            return () => {
-                ref.unref();
-            }
-        }, 5000);
 
+        }, 5000);
+        return () => {
+            clearInterval(ref);
+        }
     }, [])
 
     return (

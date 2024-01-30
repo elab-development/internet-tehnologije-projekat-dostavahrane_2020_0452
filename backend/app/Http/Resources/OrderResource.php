@@ -23,7 +23,7 @@ class OrderResource extends JsonResource
             'lng' => $this->lng,
             'rating' => $this->rating,
             'client' => new UserResource($this->client),
-            'driverId' => new UserResource($this->driver),
+            'driver' => new UserResource($this->driver),
             "items" => OrderItemResource::collection($this->items),
             'driverStatus' => $this->driver_status,
             'driverStatus' => $this->driver_status,

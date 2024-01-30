@@ -19,7 +19,7 @@ export interface Order {
     lng: number,
     rating?: number,
     client: User,
-    driver: User,
+    driver?: User,
     store: Store,
     items: OrderItem[],
     prepTime: number,

@@ -8,6 +8,7 @@ use App\Models\Merchant;
 use App\Models\Order;
 use App\Services\OrderService;
 use ArrayObject;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,6 +36,9 @@ class OrderController extends Controller
         if ($user->user_type == 'merchant') {
             $merchant = Merchant::find($user->id);
             $query['store_id'] = $merchant->store_id;
+        }
+        if ($user->user_type == 'driver') {
+            $query['driver_id'] = $user->id;
         }
         return response()->json(new OrderCollection($this->orderService->searchOrders($query)));
     }
@@ -97,13 +101,26 @@ class OrderController extends Controller
     public function activeOrders(Request $request)
     {
         $user = $request->user();
-        if ($user->user_type != 'merchant') {
+        if ($user->user_type == 'client') {
             return response(['message' => 'Forbidden'], 403);
         }
-        $storeId = Merchant::find($user->id)->store_id;
-        $orders = Order::where('store_id', $storeId)
-            ->whereIn('status', ['pending', 'accepted'])->get();
-        return response()->json(OrderResource::collection($orders));
+        if ($user->user_type == 'merchant') {
+            $storeId = Merchant::find($user->id)->store_id;
+            $orders = Order::where('store_id', $storeId)
+                ->whereIn('status', ['pending', 'accepted'])->get();
+            return response()->json(OrderResource::collection($orders));
+        }
+        if ($user->user_type == 'driver') {
+            $ordersQuery = Order::query()->where('driver_id', $user->id)
+                ->where('driver_status', '<>', 'delivered')
+                ->orWhere(function (Builder $query) {
+                    $query->where('status', 'prepared')->whereNull('driver_status');
+                });
+            return response()->json(OrderResource::collection($ordersQuery->get()));
+        }
+        $ordersQuery = Order::query()->where('status', '<>', 'rejected')
+            ->where('driver_status', '<>', 'delivered');
+        return response()->json(OrderResource::collection($ordersQuery->get()));
     }
 
     public function acceptOrder($id, Request $request)
@@ -129,7 +146,8 @@ class OrderController extends Controller
     public function assignOrder($id, Request $request)
     {
         $user = $request->user();
-        $order = $this->orderService->assignOrder($id, $user, $request->driverId);
+        $driverId = $user->user_type == 'driver' ? $user->id : $request->driverId;
+        $order = $this->orderService->assignOrder($id, $user, $driverId);
         return response()->json(new OrderResource($order));
     }
     public function pickupOrder($id, Request $request)

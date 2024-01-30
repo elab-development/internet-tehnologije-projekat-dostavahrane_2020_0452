@@ -147,12 +147,12 @@ class OrderService
     }
     public function assignOrder($id, $user, $driverId)
     {
-        if ($user->user_type != 'admin') {
+        if ($user->user_type != 'admin' && $user->user_type != 'driver') {
             throw new Exception('Invalid access');
         }
         $order = Order::find($id);
 
-        $order->update(['status' => 'assigned', 'driver_id' => $driverId]);
+        $order->update(['driver_status' => 'assigned', 'driver_id' => $driverId]);
         return $order;
     }
     public function pickupOrder($id, $user)
@@ -166,7 +166,7 @@ class OrderService
                 throw new Exception('Invalid access');
             }
         }
-        $order->update(['status' => 'picked_up']);
+        $order->update(['driver_status' => 'picked_up']);
         return $order;
     }
     public function deliverOrder($id, $user)
@@ -180,7 +180,7 @@ class OrderService
                 throw new Exception('Invalid access');
             }
         }
-        $order->update(['status' => 'delivered']);
+        $order->update(['driver_status' => 'delivered']);
         return $order;
     }
 
