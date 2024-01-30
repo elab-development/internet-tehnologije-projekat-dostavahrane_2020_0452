@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { DriverStatus, Order } from '../../types';
+import { DriverStatus, Order } from '../types';
 import axios from 'axios';
-import OrdersTable from '../../merchant/components/OrdersTable';
+import OrdersTable from '../merchant/components/OrdersTable';
 
 const statusMap = {
     'assigned': 'assign',

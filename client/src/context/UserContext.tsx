@@ -40,16 +40,11 @@ export function UserContextProvider(props: Props) {
             })
     }, [])
     const login = async (email: string, password: string) => {
-        try {
-            const response = await axios.post('/api/login', { email, password });
-            const token = response.data.token;
-            axios.defaults.headers.common.Authorization = 'Bearer ' + token;
-            localStorage.setItem('token', token);
-            setUser(response.data.user);
-
-        } catch (error) {
-
-        }
+        const response = await axios.post('/api/login', { email, password });
+        const token = response.data.token;
+        axios.defaults.headers.common.Authorization = 'Bearer ' + token;
+        localStorage.setItem('token', token);
+        setUser(response.data.user);
     }
     const register = async (regUser: RegisterUser) => {
         try {

@@ -13,8 +13,12 @@ export default function LoginPage() {
         <Container header='Login'>
             <form onSubmit={async e => {
                 e.preventDefault();
-                await login(email, password);
-                navigate('/')
+                try {
+                    await login(email, password);
+                    navigate('/')
+                } catch (error) {
+
+                }
             }} >
                 <Input
                     label='Email'

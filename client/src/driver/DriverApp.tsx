@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from './components/navbar/Navbar'
 import { Route, Routes } from 'react-router'
 import OrdersPage from '../merchant/pages/OrdersPage'
-import ActiveOrdersPage from './pages/ActiveOrdersPage'
+import ActiveOrdersPage from './ActiveOrdersPage'
 
 export default function DriverApp() {
     return (
