@@ -23,7 +23,7 @@ export default function ActiveOrdersPage() {
                 if (o === order) {
                     return res.data;
                 }
-                return 0;
+                return o;
             })
         })
     }
@@ -38,7 +38,6 @@ export default function ActiveOrdersPage() {
                 .then(res => {
                     setOrders(res.data);
                 })
-
         }, 5000);
         return () => {
             clearInterval(ref);

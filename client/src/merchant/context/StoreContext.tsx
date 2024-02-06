@@ -54,7 +54,7 @@ export function StoreContextProvider(props: React.PropsWithChildren) {
                         }
                         return {
                             ...prev,
-                            items: prev?.items.map(i => {
+                            items: prev.items.map(i => {
                                 if (i.id === id) {
                                     return item;
                                 }

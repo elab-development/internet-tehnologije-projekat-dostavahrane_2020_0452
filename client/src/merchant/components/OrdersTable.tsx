@@ -37,9 +37,10 @@ export default function OrdersTable(props: Props) {
             <tbody>
                 {
                     props.orders.map(order => {
-                        const itemPrice = order.items.reduce((acc, item) => {
+                        const itemPrice = (order.items || []).reduce((acc, item) => {
                             return acc + Number(item.count) * Number(item.price)
                         }, 0)
+
                         return (
                             <tr className='order-row' key={order.id}>
                                 <td>{order.id}</td>
