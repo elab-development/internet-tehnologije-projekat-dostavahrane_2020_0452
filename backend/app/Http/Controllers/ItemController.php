@@ -30,7 +30,7 @@ class ItemController extends Controller
             $merchant = Merchant::find($user->id);
             $storeId = $merchant->store_id;
         }
-        $store = Item::create([
+        $item = Item::create([
             'name' => $request->name,
             'image' => $request->image,
             'price' => $request->price,
@@ -38,7 +38,7 @@ class ItemController extends Controller
             'store_id' => $storeId
         ]);
 
-        return response()->json(new ItemResource($store));
+        return response()->json(new ItemResource($item));
     }
 
 
@@ -75,9 +75,6 @@ class ItemController extends Controller
 
     private function validateUser(User $user, Item $item)
     {
-        error_log($user->user_type);
-        error_log($item->id);
-        error_log($item->store_id);
         if ($user->user_type == 'admin') {
             return true;
         }
@@ -85,7 +82,6 @@ class ItemController extends Controller
             return false;
         }
         $merchant = Merchant::find($user->id);
-        error_log($merchant->store_id);
         return $merchant->store_id == $item->store_id;
     }
 }

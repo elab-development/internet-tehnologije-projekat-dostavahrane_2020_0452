@@ -191,10 +191,10 @@ class OrderService
             ->select('stores.id', 'stores.name', DB::raw('COUNT(orders.id) as total'))
             ->leftJoin('orders', 'orders.store_id', '=', 'stores.id');
         if ($from) {
-            $query = $query->where('created_at', '>', $from);
+            $query = $query->where('orders.created_at', '>', $from);
         }
         if ($to) {
-            $query = $query->where('created_at', '<', $to);
+            $query = $query->where('orders.created_at', '<', $to);
         }
         $query = $query->groupBy('stores.id')->groupBy('stores.name');
         return $query->get();
