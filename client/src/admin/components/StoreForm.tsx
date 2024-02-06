@@ -19,7 +19,7 @@ export default function StoreForm(props: Props) {
         setAddress(props.store.address);
         setLat(props.store.lat + '')
         setLng(props.store.lng + '')
-    });
+    }, [props.store]);
 
     return (
         <form onSubmit={e => {

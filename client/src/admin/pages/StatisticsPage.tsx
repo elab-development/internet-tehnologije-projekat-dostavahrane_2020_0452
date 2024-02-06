@@ -16,7 +16,11 @@ export default function StatisticsPage() {
     const [to, setTo] = useState('')
     const [statistics, setStatistics] = useState([] as StatisticsItem[]);
     useEffect(() => {
-        axios.get('/api/orders/statistics')
+        axios.get('/api/orders/statistics', {
+            params: {
+                from, to
+            }
+        })
             .then(res => setStatistics(res.data))
             .catch(() => setStatistics([]))
     }, [from, to])
@@ -34,7 +38,6 @@ export default function StatisticsPage() {
                 <ResponsiveContainer width="100%" aspect={2}>
                     <BarChart
                         data={statistics}
-
                     >
                         <XAxis dataKey="name" />
                         <YAxis />

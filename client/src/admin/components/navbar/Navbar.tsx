@@ -25,9 +25,6 @@ export default function Navbar() {
                         <NavLink className='link' to='/create-store'>Create store</NavLink>
                     </NavButton>
                     <NavButton>
-                        <NavLink className='link' to='/items'>Items</NavLink>
-                    </NavButton>
-                    <NavButton>
                         <NavLink className='link' to='/statistics'>Statistics</NavLink>
                     </NavButton>
                 </div>
