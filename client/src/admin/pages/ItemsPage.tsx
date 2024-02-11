@@ -34,7 +34,12 @@ export default function ItemsPage() {
             <div>
                 <button className='btn btn-success m-2' onClick={() => {
                     const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: 'items', fieldSeparator: ';' })
-                    const csv = generateCsv(csvConfig)(store.items as any);
+                    const csv = generateCsv(csvConfig)(store.items.map(item => {
+                        return {
+                            ...item,
+                            store: store.name
+                        }
+                    }) as any);
                     download(csvConfig)(csv)
                 }}> Export items</button>
             </div>

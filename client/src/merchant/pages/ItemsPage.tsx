@@ -4,6 +4,7 @@ import Container from '../../components/container/Container';
 import Input from '../../components/Input';
 import ItemCard from '../components/itemCard/ItemCard';
 import axios from 'axios';
+import { mkConfig, generateCsv, download } from 'export-to-csv';
 
 export default function ItemsPage() {
     const { store, updateItem } = useStoreContext();
@@ -12,6 +13,18 @@ export default function ItemsPage() {
         <Container header='Items'>
             <div className='my-2'>
                 <Input placeholder='Search...' value={search} onChange={setSearch} />
+            </div>
+            <div>
+                <button className='btn btn-success m-2' onClick={() => {
+                    const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: 'items', fieldSeparator: ';' })
+                    const csv = generateCsv(csvConfig)(store.items.map(item => {
+                        return {
+                            ...item,
+                            store: store.name
+                        }
+                    }) as any);
+                    download(csvConfig)(csv)
+                }}> Export items</button>
             </div>
             <div className='flex'>
                 {
