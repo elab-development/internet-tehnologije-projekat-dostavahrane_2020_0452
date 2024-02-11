@@ -4,6 +4,7 @@ import { useParams } from 'react-router'
 import { Item, Store } from '../../types';
 import axios from 'axios';
 import ItemForm from '../components/ItemForm';
+import { download, generateCsv, mkConfig } from 'export-to-csv';
 
 export default function ItemsPage() {
     const id = useParams().id;
@@ -30,6 +31,13 @@ export default function ItemsPage() {
     }
     return (
         <Container header='Store items'>
+            <div>
+                <button className='btn btn-success m-2' onClick={() => {
+                    const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: 'items', fieldSeparator: ';' })
+                    const csv = generateCsv(csvConfig)(store.items as any);
+                    download(csvConfig)(csv)
+                }}> Export items</button>
+            </div>
             <div className='row'>
                 <div className='col-6'>
                     <table className='table  table-hover'>
