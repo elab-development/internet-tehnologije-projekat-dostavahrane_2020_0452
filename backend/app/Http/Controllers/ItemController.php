@@ -9,6 +9,7 @@ use App\Models\Merchant;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -83,5 +84,24 @@ class ItemController extends Controller
         }
         $merchant = Merchant::find($user->id);
         return $merchant->store_id == $item->store_id;
+    }
+
+    public function uploadFile(Request $request)
+    {
+        $user = $request->user();
+        if ($user->user_type != 'admin' && $user->user_type != 'merchant') {
+            return response()->json(["message" => "Forbidden"], 403);
+        }
+        $fileName = $request->file('file')->store('local');
+        return response()->json(['fileName' => $fileName]);
+    }
+
+    public function getFile($itemId)
+    {
+        $item = Item::find($itemId);
+        if (!$item) {
+            return response()->json(['message' => "missing item"], 404);
+        }
+        return response(Storage::disk('local')->get($item->image));
     }
 }
