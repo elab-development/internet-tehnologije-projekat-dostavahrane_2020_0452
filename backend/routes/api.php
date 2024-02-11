@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::apiResource('/stores', StoreController::class)->only(['index', 'show']);
-Route::get('items/{id}/file', [OrderController::class, 'getFile']);
+Route::get('files/{fileName}', [ItemController::class, 'getFile']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

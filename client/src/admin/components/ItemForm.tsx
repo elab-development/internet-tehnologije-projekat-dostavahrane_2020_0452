@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Item } from '../../types'
 import Input from '../../components/Input';
+import axios from 'axios';
 
 interface Props {
     item?: Item,
@@ -35,6 +36,18 @@ export default function ItemForm(props: Props) {
                 <Input label='Name' placeholder='Name...' required value={name} onChange={setName} />
                 <Input label='Price' placeholder='Price...' required value={price} onChange={setPrice} type='number' />
                 <Input label='Image link' placeholder='Link...' required value={image} onChange={setImage} />
+                <input type="file" className='mt-2' onChange={async e => {
+                    const files = e.currentTarget.files;
+                    if (!files || files.length === 0) {
+                        return;
+                    }
+                    const file = files[0];
+                    const fd = new FormData();
+                    fd.set('file', file);
+                    const res = await axios.post('/api/item-upload', fd);
+                    const fileName = res.data.fileName;
+                    setImage(`/api/files/${fileName.split('/')[1]}`);
+                }} />
                 <div className="form-check my-2">
                     <input className="form-check-input" type="checkbox" value="" checked={disabled} onChange={() => {
                         setDisabled(p => !p)

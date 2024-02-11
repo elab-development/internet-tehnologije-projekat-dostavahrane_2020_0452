@@ -96,12 +96,8 @@ class ItemController extends Controller
         return response()->json(['fileName' => $fileName]);
     }
 
-    public function getFile($itemId)
+    public function getFile($fileName)
     {
-        $item = Item::find($itemId);
-        if (!$item) {
-            return response()->json(['message' => "missing item"], 404);
-        }
-        return response(Storage::disk('local')->get($item->image));
+        return response(Storage::disk('local')->get("local/" . $fileName));
     }
 }
